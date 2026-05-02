@@ -43,10 +43,13 @@ const SYSTEM_BOTS_C = [
 const ADMIN_BOTS_C = [
   { uid: ADMIN_BOT.uid, username: ADMIN_BOT.username, icon: "⚙️", color: "text-amber-400", prefix: "&", prefixColor: "text-amber-400" },
 ];
-const OP_BOTS_C = [
-  { uid: NOMERCY_BOT.uid, username: NOMERCY_BOT.username, icon: "🚨", color: "text-red-400", prefix: "@", prefixColor: "text-emerald-400" },
-  { uid: GAME_BOT.uid, username: GAME_BOT.username, icon: "🎮", color: "text-emerald-400", prefix: "@", prefixColor: "text-emerald-400" },
-];
+const NOMERCY_C = { uid: NOMERCY_BOT.uid, username: NOMERCY_BOT.username, icon: "🚨", color: "text-red-400", prefix: "@", prefixColor: "text-emerald-400" };
+const OYUNBOT_C = { uid: GAME_BOT.uid, username: GAME_BOT.username, icon: "🎮", color: "text-emerald-400", prefix: "@", prefixColor: "text-emerald-400" };
+
+// OyunBot SADECE #oyun kanalında
+function getOpBotsC(roomId: string) {
+  return roomId === "oyun" ? [NOMERCY_C, OYUNBOT_C] : [NOMERCY_C];
+}
 
 export default function UserListCompact({
   room,

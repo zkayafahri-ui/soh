@@ -7,7 +7,6 @@ import {
   push,
   set,
   serverTimestamp,
-  onDisconnect,
 } from "../firebase";
 import type { Message, OnlineUser } from "../types";
 import { getAvatarColor } from "../data/rooms";
@@ -411,31 +410,47 @@ function npcSendMessage(roomId: string, npc: NPC, text: string) {
   pushDemoMessage(roomId, msg);
 }
 
+// NPC presence'i artık Firebase'e gönderilmiyor — yanıp sönme olmasın diye.
+// NPC'ler her client'ta local olarak gösteriliyor (subscribeOnlineUsers'a override).
 function npcUpdatePresence(roomId: string, npc: NPC) {
   const avatarColor = getAvatarColor(npc.uid);
-  // NPC'yi 5-30 dakika önce katılmış gibi göster (rastgele eskilik)
   const lastSeen = Date.now();
 
-  if (isFirebaseConfigured && db) {
-    const userRef = ref(db, `rooms/${roomId}/online/${npc.uid}`);
-    set(userRef, {
-      uid: npc.uid,
-      username: npc.username,
-      avatarColor,
-      lastSeen: serverTimestamp(),
-    });
-    onDisconnect(userRef).remove();
-    return;
-  }
-
-  // Demo
+  // Hem Firebase hem demo modda: sadece local listeye ekle
   const user: OnlineUser = {
     uid: npc.uid,
     username: npc.username,
     avatarColor,
     lastSeen,
   };
-  pushDemoPresence(roomId, user);
+  pushLocalNpcPresence(roomId, user);
+}
+
+// NPC presence — sadece local memory'de
+const localNpcs = new Map<string, Map<string, OnlineUser>>();
+const npcListeners = new Map<string, Set<(users: OnlineUser[]) => void>>();
+
+function pushLocalNpcPresence(roomId: string, user: OnlineUser) {
+  if (!localNpcs.has(roomId)) localNpcs.set(roomId, new Map());
+  localNpcs.get(roomId)!.set(user.uid, user);
+  // Listener'ları bilgilendir
+  const list = Array.from(localNpcs.get(roomId)!.values());
+  npcListeners.get(roomId)?.forEach((fn) => fn(list));
+}
+
+export function getLocalNpcs(roomId: string): OnlineUser[] {
+  return Array.from(localNpcs.get(roomId)?.values() || []);
+}
+
+export function subscribeNpcs(
+  roomId: string,
+  callback: (users: OnlineUser[]) => void
+): () => void {
+  if (!npcListeners.has(roomId)) npcListeners.set(roomId, new Set());
+  npcListeners.get(roomId)!.add(callback);
+  // Anında mevcut listeyi gönder
+  callback(getLocalNpcs(roomId));
+  return () => npcListeners.get(roomId)?.delete(callback);
 }
 
 // ============= ANA NPC SİSTEMİ =============

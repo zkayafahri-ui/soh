@@ -109,7 +109,10 @@ export default function UserList({
 }: Props) {
   const [users, setUsers] = useState<OnlineUser[]>([]);
   const [notifs, setNotifs] = useState<PmNotification[]>([]);
-  const [menu, setMenu] = useState<{ uid: string; username: string; x: number; y: number } | null>(null);
+    const [menu, setMenu] = useState<{ uid: string; username: string; x: number; y: number } | null>(null);
+
+  // OyunBot sadece #oyun kanalında — oda bazlı dinamik
+  const OP_BOTS = getOpBots(room.id);
 
   useEffect(() => {
     const unsub = subscribeOnlineUsers(room.id, setUsers);

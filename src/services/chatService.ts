@@ -266,11 +266,26 @@ export function sendMessage(
   }
 
   // 🎮 OyunBot komut işleme
-  const gameResponses = processGameCommand(roomId, uid, username, cleanText);
-  if (gameResponses) {
-    gameResponses.forEach((r, i) => {
-      sendBotMessage(roomId, GAME_BOT, r.text, (r.delay ?? 600) + i * 300);
-    });
+    // 🎮 OyunBot komut işleme — SADECE #oyun kanalında
+  if (roomId === "oyun") {
+    const gameResponses = processGameCommand(roomId, uid, username, cleanText);
+    if (gameResponses) {
+      gameResponses.forEach((r, i) => {
+        sendBotMessage(roomId, GAME_BOT, r.text, (r.delay ?? 600) + i * 300);
+      });
+    }
+  } else if (cleanText.startsWith("!")) {
+    // Diğer kanallarda ! komutuna nazik uyarı
+    const knownCmds = ["!yardim", "!komutlar", "!help", "!sayi", "!sayı", "!kelime", "!soru", "!tas", "!taş", "!kagit", "!kağıt", "!makas", "!zar", "!yazi", "!tura", "!soyle", "!dur", "!stop", "!seviye", "!seviyeler", "!level", "!levels"];
+    const lower = cleanText.toLowerCase().split(" ")[0];
+    if (knownCmds.includes(lower)) {
+      sendBotMessage(
+        roomId,
+        SYSTEM_BOT,
+        `🎮 Oyun komutları sadece **#oyun** kanalında çalışır! 👉 #oyun kanalına geç.`,
+        300
+      );
+    }
   }
 
   return { ok: true };

@@ -141,10 +141,20 @@ export default function ChatRoom({
     startNpcsForRoom(room.id);
 
     // Hoşgeldin mesajı (sadece ilk girişte)
+       // Hoşgeldin mesajı (sadece ilk girişte — site bazlı)
     const welcomeKey = `welcomed_${room.id}_${uid}`;
     if (!sessionStorage.getItem(welcomeKey)) {
       sessionStorage.setItem(welcomeKey, "1");
       sendWelcomeMessage(room.id, username, uid);
+    }
+
+    // 🎮 #oyun kanalına HER GEÇİŞTE OyunBot bilgi mesajı atar (5 dk arayla)
+    if (room.id === "oyun") {
+      const lastOyun = parseInt(sessionStorage.getItem(`oyun_last_${uid}`) || "0", 10);
+      if (Date.now() - lastOyun > 5 * 60 * 1000) {
+        sessionStorage.setItem(`oyun_last_${uid}`, Date.now().toString());
+        sendOyunWelcome(username);
+      }
     }
 
     // Sol bardan nick mention event'i

@@ -71,28 +71,35 @@ const ADMIN_BOTS = [
   },
 ];
 
-const OP_BOTS = [
-  {
-    uid: NOMERCY_BOT.uid,
-    username: NOMERCY_BOT.username,
-    icon: "🚨",
-    color: "text-red-400",
-    glow: "shadow-red-500/30",
-    role: "Moderasyon",
-    prefix: "@",
-    prefixColor: "text-emerald-400",
-  },
-  {
-    uid: GAME_BOT.uid,
-    username: GAME_BOT.username,
-    icon: "🎮",
-    color: "text-emerald-400",
-    glow: "shadow-emerald-500/30",
-    role: "Oyun · !yardim",
-    prefix: "@",
-    prefixColor: "text-emerald-400",
-  },
-];
+const NOMERCY_OP = {
+  uid: NOMERCY_BOT.uid,
+  username: NOMERCY_BOT.username,
+  icon: "🚨",
+  color: "text-red-400",
+  glow: "shadow-red-500/30",
+  role: "Moderasyon",
+  prefix: "@",
+  prefixColor: "text-emerald-400",
+};
+
+const OYUNBOT_OP = {
+  uid: GAME_BOT.uid,
+  username: GAME_BOT.username,
+  icon: "🎮",
+  color: "text-emerald-400",
+  glow: "shadow-emerald-500/30",
+  role: "Oyun · !yardim",
+  prefix: "@",
+  prefixColor: "text-emerald-400",
+};
+
+// OyunBot SADECE #oyun kanalında görünür
+function getOpBots(roomId: string) {
+  if (roomId === "oyun") {
+    return [NOMERCY_OP, OYUNBOT_OP];
+  }
+  return [NOMERCY_OP];
+}
 
 export default function UserList({
   room,

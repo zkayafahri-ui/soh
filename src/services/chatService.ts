@@ -346,28 +346,28 @@ export function sendWelcomeMessage(
   }
 
   // 🎮 #oyun kanalına özel: OyunBot komut tanıtımı
-  if (roomId === "oyun") {
-    setTimeout(() => {
-      sendBotMessage(
-        roomId,
-        GAME_BOT,
-        `🎮 **OYUN KANALINA HOŞ GELDİN @${username}!** 🎮\n\n` +
-          `Burada minik oyunlar oynayabilirsin! Komutlar:\n\n` +
-          `🎲 \`!sayi\` — Sayı tahmin oyunu (1-100, 10 hak)\n` +
-          `📝 \`!kelime\` — Kelime tahmin oyunu (8 hak)\n` +
-          `🧠 \`!soru\` — Bilgi yarışması (15+ soru havuzu)\n` +
-          `✊ \`!tas\` ✋ \`!kagit\` ✌️ \`!makas\` — Bota karşı oyna\n` +
-          `🎰 \`!zar\` — Şanslı zar at (1-6)\n` +
-          `🪙 \`!yazi\` veya \`!tura\` — Klasik yazı tura\n` +
-          `🎱 \`!soyle <soru>\` — Magic 8-Ball cevap\n` +
-          `🛑 \`!dur\` — Aktif oyunu sonlandır\n\n` +
-          `📊 Seviye: \`!seviye\` · Tüm liste: \`!seviyeler\`\n` +
-          `❓ Tüm komutlar: \`!yardim\`\n\n` +
-          `💡 İpucu: Bir oyun başlattıktan sonra tahminini direkt yaz!`,
-        2500
-      );
-    }, 0);
   }
+
+// 🎮 #oyun kanalına özel hoşgeldin — her giriş'te çalışır
+export function sendOyunWelcome(username: string) {
+  sendBotMessage(
+    "oyun",
+    GAME_BOT,
+    `🎮 **OYUN KANALINA HOŞ GELDİN @${username}!** 🎮\n\n` +
+      `Burada minik oyunlar oynayabilirsin! Komutlar:\n\n` +
+      `🎲 \`!sayi\` — Sayı tahmin oyunu (1-100, 10 hak)\n` +
+      `📝 \`!kelime\` — Kelime tahmin oyunu (8 hak)\n` +
+      `🧠 \`!soru\` — Bilgi yarışması (15+ soru havuzu)\n` +
+      `✊ \`!tas\` ✋ \`!kagit\` ✌️ \`!makas\` — Bota karşı oyna\n` +
+      `🎰 \`!zar\` — Şanslı zar at (1-6)\n` +
+      `🪙 \`!yazi\` veya \`!tura\` — Klasik yazı tura\n` +
+      `🎱 \`!soyle <soru>\` — Magic 8-Ball cevap\n` +
+      `🛑 \`!dur\` — Aktif oyunu sonlandır\n\n` +
+      `📊 Seviye: \`!seviye\` · Tüm liste: \`!seviyeler\`\n` +
+      `❓ Tüm komutlar: \`!yardim\`\n\n` +
+      `💡 İpucu: Bir oyun başlattıktan sonra tahminini direkt yaz!`,
+    1500
+  );
 }
 
 export function subscribeMessages(

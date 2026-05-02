@@ -450,21 +450,53 @@ export function subscribeOnlineUsers(
   roomId: string,
   callback: (users: OnlineUser[]) => void
 ): () => void {
+  // Hem gerçek kullanıcıları hem NPC'leri birleştir
+  let realUsers: OnlineUser[] = [];
+  let npcUsers: OnlineUser[] = [];
+
+  const merge = () => {
+    // Aynı uid'leri tekilleştir (önce real, sonra npc)
+    const map = new Map<string, OnlineUser>();
+    [...realUsers, ...npcUsers].forEach((u) => map.set(u.uid, u));
+    const merged = Array.from(map.values()).sort((a, b) =>
+      a.username.localeCompare(b.username)
+    );
+    callback(merged);
+  };
+
+  // NPC subscription (lokal, asla titremez)
+  // Lazy import — circular dep önler
+  let unsubNpc = () => {};
+  import("./npcUsers").then(({ subscribeNpcs }) => {
+    unsubNpc = subscribeNpcs(roomId, (users) => {
+      npcUsers = users;
+      merge();
+    });
+  });
+
+  // Real users (Firebase / demo)
+  let unsubReal = () => {};
   if (isFirebaseConfigured && db) {
     const onlineRef = ref(db, `rooms/${roomId}/online`);
     const handler = onValue(onlineRef, (snap) => {
       const data = snap.val() || {};
-      const users: OnlineUser[] = Object.values(data);
-      callback(users.sort((a, b) => a.username.localeCompare(b.username)));
+      realUsers = Object.values(data);
+      merge();
     });
-    return () => off(onlineRef, "value", handler);
+    unsubReal = () => off(onlineRef, "value", handler);
+  } else {
+    realUsers = loadDemoUsers(roomId);
+    merge();
+    unsubReal = demoChannel.subscribe(`users_${roomId}`, (users: OnlineUser[]) => {
+      realUsers = users;
+      merge();
+    });
   }
 
-  // Demo
-  callback(loadDemoUsers(roomId));
-  return demoChannel.subscribe(`users_${roomId}`, (users: OnlineUser[]) => {
-    callback(users);
-  });
+  return () => {
+    unsubReal();
+    unsubNpc();
+  };
 }
 
 // ============= ODA İSTATİSTİKLERİ =============

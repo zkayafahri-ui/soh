@@ -17,19 +17,18 @@ interface Props {
 export default function ChatPage({ initialRoomId, onUserChange }: Props) {
   const [user, setUser] = useState(getCurrentUser());
   
-  // Açık odaların listesi (Sekmeler)
+  // Açık odaların listesi
   const [openRoomIds, setOpenRoomIds] = useState<string[]>(() => {
     const initial = initialRoomId || ROOMS[0].id;
     return [initial];
   });
   
-  // Şu an ekranda görünen aktif oda
+  // Aktif odanın ID'si
   const [activeRoomId, setActiveRoomId] = useState<string>(initialRoomId || ROOMS[0].id);
   
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [usersOpen, setUsersOpen] = useState(false);
 
-  // URL'den gelen odayı sekmelere ekle
   useEffect(() => {
     if (initialRoomId && !openRoomIds.includes(initialRoomId)) {
       setOpenRoomIds(prev => [...prev, initialRoomId]);
@@ -56,7 +55,6 @@ export default function ChatPage({ initialRoomId, onUserChange }: Props) {
     }
   };
 
-  // Yeni oda seçildiğinde sekme olarak aç
   const handleSelectRoom = (room: Room) => {
     if (!openRoomIds.includes(room.id)) {
       setOpenRoomIds(prev => [...prev, room.id]);
@@ -65,7 +63,6 @@ export default function ChatPage({ initialRoomId, onUserChange }: Props) {
     setSidebarOpen(false);
   };
 
-  // Sekmeyi kapat
   const handleCloseTab = (e: React.MouseEvent, roomId: string) => {
     e.stopPropagation();
     if (openRoomIds.length <= 1) return;
@@ -88,12 +85,12 @@ export default function ChatPage({ initialRoomId, onUserChange }: Props) {
   return (
     <div className="h-[calc(100vh-4rem)] h-[calc(100dvh-4rem)] w-full overflow-hidden bg-slate-950 text-white flex flex-col">
       <div className="flex-1 flex overflow-hidden">
-        {/* SOL BAR — Kanallar */}
+        {/* SOL BAR — Kanallar (Desktop) */}
         <aside className="hidden lg:flex w-60 flex-shrink-0">
           <RoomList activeRoom={activeRoomId} onSelectRoom={handleSelectRoom} />
         </aside>
 
-        {/* SOL BAR — Mobil Drawer */}
+        {/* SOL BAR — Mobile Drawer */}
         {sidebarOpen && (
           <>
             <div
@@ -110,17 +107,19 @@ export default function ChatPage({ initialRoomId, onUserChange }: Props) {
           </>
         )}
 
-        {/* ORTA PANEL — Sekmeler ve Mesajlar */}
+        {/* ORTA — Sohbet ve Sekmeler */}
         <div className="flex-1 min-w-0 flex flex-col border-r border-white/5">
           {/* SEKME BARI */}
           <div className="flex items-center bg-slate-900/50 border-b border-white/5 overflow-x-auto no-scrollbar scroll-smooth">
             {openRoomIds.map(id => {
+              const r = ROOMS.find(room => room.id === id);
+              if (!r) return null;
               const isActive = activeRoomId === id;
               return (
                 <div
                   key={id}
                   onClick={() => setActiveRoomId(id)}
-                  className={`group relative flex items-center h-10 px-4 gap-2 cursor-pointer transition-all border-r border-white/5 min-w-[120px] max-w-[200px] shrink-0 ${
+                  className={`group relative flex items-center h-10 px-4 gap-2 cursor-pointer transition-all border-r border-white/5 min-w-[120px] max-w-[180px] shrink-0 ${
                     isActive 
                       ? "bg-slate-950 text-emerald-400 font-bold" 
                       : "text-slate-500 hover:text-slate-300 hover:bg-slate-900/80"
@@ -147,7 +146,6 @@ export default function ChatPage({ initialRoomId, onUserChange }: Props) {
 
           <main className="flex-1 min-w-0 h-full overflow-hidden">
             <ChatRoom
-              key={activeRoomId} // Oda değiştiğinde ChatRoom'u resetler
               room={activeRoom}
               uid={user.uid}
               username={user.username}
@@ -158,7 +156,7 @@ export default function ChatPage({ initialRoomId, onUserChange }: Props) {
           </main>
         </div>
 
-        {/* SAĞ BAR — Nickler (Masaüstü) */}
+        {/* SAĞ BAR — Desktop Tam Görünüm (xl+) */}
         <aside className="hidden xl:flex w-64 2xl:w-72 flex-shrink-0">
           <UserList
             room={activeRoom}
@@ -167,7 +165,7 @@ export default function ChatPage({ initialRoomId, onUserChange }: Props) {
           />
         </aside>
 
-        {/* SAĞ BAR — Tablet Kompakt Bar */}
+        {/* SAĞ BAR — Tablet Kompakt (md - xl) */}
         <aside className="hidden md:flex xl:hidden w-[110px] flex-shrink-0">
           <UserListCompact
             room={activeRoom}
@@ -177,7 +175,7 @@ export default function ChatPage({ initialRoomId, onUserChange }: Props) {
           />
         </aside>
 
-        {/* SAĞ BAR — Mobil/Tablet Drawer */}
+        {/* SAĞ BAR — Mobile Drawer (md altı) */}
         {usersOpen && (
           <>
             <div
@@ -196,6 +194,7 @@ export default function ChatPage({ initialRoomId, onUserChange }: Props) {
         )}
       </div>
       
+      {/* 💌 ÖZEL MESAJ PENCERELERİ */}
       <PrivateChatManager myUid={user.uid} myUsername={user.username} />
     </div>
   );

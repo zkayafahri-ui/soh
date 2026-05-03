@@ -1,100 +1,3 @@
-Skip to content
-zkayafahri-ui
-soh
-Repository navigation
-Code
-Issues
-Pull requests
-Agents
-Actions
-Projects
-Wiki
-Security and quality
-1
- (1)
-Insights
-Settings
-Files
-Go to file
-t
-T
-public
-src
-components
-data
-pages
-ArticleView.tsx
-Blog.tsx
-ChatPage.tsx
-Home.tsx
-services
-utils
-App.tsx
-firebase.ts
-index.css
-main.tsx
-types.ts
-.gitignore
-index.html
-package-lock.json
-package.json
-tsconfig.json
-vite.config.ts
-soh/src
-/
-App.tsx
-in
-main
-
-Edit
-
-Preview
-Indent mode
-
-Spaces
-Indent size
-
-2
-Line wrap mode
-
-No wrap
-Editing App.tsx file contents
-  1
-  2
-  3
-  4
-  5
-  6
-  7
-  8
-  9
- 10
- 11
- 12
- 13
- 14
- 15
- 16
- 17
- 18
- 19
- 20
- 21
- 22
- 23
- 24
- 25
- 26
- 27
- 28
- 29
- 30
- 31
- 32
- 33
- 34
- 35
- 36
 import { useEffect, useState } from "react";
 import Header from "./components/Header";
 import Home from "./pages/Home";
@@ -102,6 +5,13 @@ import Blog from "./pages/Blog";
 import ArticleView from "./pages/ArticleView";
 import ChatPage from "./pages/ChatPage";
 import { getCurrentUser } from "./services/chatService";
+import { registerServiceWorker, initPwaInstall } from "./services/notifications";
+
+// Sayfa yüklenir yüklenmez PWA başlat
+initPwaInstall();
+if (typeof window !== "undefined") {
+  registerServiceWorker();
+}
 
 type Page = "home" | "chat" | "blog" | "article";
 
@@ -131,5 +41,65 @@ export default function App() {
   const [route, setRoute] = useState<RouteState>(parseHash());
   const [user, setUser] = useState(getCurrentUser());
 
-Use Control + Shift + m to toggle the tab key moving focus. Alternatively, use esc then tab to move to the next interactive element on the page.
- 
+  useEffect(() => {
+    const onHash = () => setRoute(parseHash());
+    window.addEventListener("hashchange", onHash);
+    return () => window.removeEventListener("hashchange", onHash);
+  }, []);
+
+  const navigate = (page: string, param?: string) => {
+    setHash(page as Page, param);
+  };
+
+  const refreshUser = () => setUser(getCurrentUser());
+
+  const isChatPage = route.page === "chat";
+
+  return (
+    <div className="min-h-screen bg-slate-950 text-white">
+      {!isChatPage && (
+        <Header
+          current={route.page === "article" ? "blog" : route.page}
+          onNavigate={navigate}
+          username={user?.username}
+        />
+      )}
+
+      {isChatPage && (
+        <Header
+          current="chat"
+          onNavigate={navigate}
+          username={user?.username}
+        />
+      )}
+
+      {route.page === "home" && (
+        <Home
+          onNavigate={navigate}
+          onOpenArticle={(slug) => navigate("article", slug)}
+          onSelectRoom={(roomId) => navigate("chat", roomId)}
+        />
+      )}
+
+      {route.page === "blog" && (
+        <Blog onOpenArticle={(slug) => navigate("article", slug)} />
+      )}
+
+      {route.page === "article" && route.param && (
+        <ArticleView
+          slug={route.param}
+          onBack={() => navigate("blog")}
+          onOpenArticle={(slug) => navigate("article", slug)}
+          onNavigate={navigate}
+        />
+      )}
+
+      {route.page === "chat" && (
+        <ChatPage
+          initialRoomId={route.param}
+          onUserChange={refreshUser}
+        />
+      )}
+    </div>
+  );
+}

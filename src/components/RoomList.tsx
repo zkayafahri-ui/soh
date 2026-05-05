@@ -32,15 +32,15 @@ export default function RoomList({ activeRoom, onSelectRoom, onClose }: Props) {
   }, {});
 
   return (
-    <div className="h-full flex flex-col bg-slate-950 border-r border-white/5 font-mono">
-      <div className="px-3 py-2.5 border-b border-white/5 bg-slate-900/60">
-        <div className="flex items-center justify-between mb-2.5">
+    <div className="h-full flex flex-col theme-bg-secondary border-r border-[rgb(var(--border)/0.2)] font-mono">
+      <div className="px-3 py-3 border-b border-[rgb(var(--border)/0.2)] bg-[rgb(var(--bg-primary)/0.6)]">
+        <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-base shadow-lg shadow-indigo-500/30">
+            <div className="w-8 h-8 rounded-lg theme-accent-gradient flex items-center justify-center text-base shadow-lg shadow-[rgb(var(--accent-from)/0.3)]">
               💬
             </div>
             <div>
-              <h2 className="text-white font-bold text-[13px] leading-tight">
+              <h2 className="theme-text-primary font-bold text-[13px] leading-tight">
                 SohbetGo
               </h2>
               <p className="text-[10px] text-emerald-400 leading-tight">
@@ -51,7 +51,7 @@ export default function RoomList({ activeRoom, onSelectRoom, onClose }: Props) {
           {onClose && (
             <button
               onClick={onClose}
-              className="lg:hidden w-7 h-7 rounded hover:bg-white/5 flex items-center justify-center text-slate-400"
+              className="lg:hidden w-7 h-7 rounded hover:bg-[rgb(var(--text-primary)/0.05)] flex items-center justify-center theme-text-secondary"
               aria-label="Kapat"
             >
               ✕
@@ -68,19 +68,19 @@ export default function RoomList({ activeRoom, onSelectRoom, onClose }: Props) {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder=""
-            className="w-full pl-12 pr-2 py-1.5 bg-slate-900 border border-slate-700 focus:border-emerald-500 rounded text-[12px] text-white placeholder-slate-600 outline-none font-mono"
+            className="w-full pl-12 pr-2 py-1.5 theme-bg-secondary border border-[rgb(var(--border)/0.2)] focus:border-emerald-500 rounded text-[12px] theme-text-primary placeholder-slate-600 outline-none font-mono"
           />
         </div>
       </div>
 
-      <div className="px-3 py-1 text-[9px] text-slate-600 uppercase tracking-wider select-none border-b border-white/5">
+      <div className="px-3 py-1.5 text-[9px] theme-text-secondary opacity-50 uppercase tracking-widest select-none border-b border-[rgb(var(--border)/0.1)]">
         # KANALLAR
       </div>
 
       <div className="flex-1 overflow-y-auto py-1 text-[12.5px]">
         {Object.entries(grouped).map(([category, rooms]) => (
           <div key={category} className="mb-2">
-            <h3 className="text-[9px] font-bold text-slate-600 uppercase tracking-wider px-2 py-1 select-none">
+            <h3 className="text-[9px] font-bold theme-text-secondary uppercase tracking-widest px-3 py-1 select-none">
               ── {category} ──
             </h3>
             <div>
@@ -92,18 +92,18 @@ export default function RoomList({ activeRoom, onSelectRoom, onClose }: Props) {
                     key={room.id}
                     onClick={() => onSelectRoom(room)}
                     title={room.description}
-                    className={`w-full text-left px-2 py-1 flex items-center gap-1.5 transition group ${
+                    className={`w-full text-left px-3 py-1.5 flex items-center gap-2 transition group ${
                       isActive
-                        ? "bg-emerald-500/10 border-l-2 border-emerald-400"
-                        : "hover:bg-white/5 border-l-2 border-transparent"
+                        ? "bg-[rgb(var(--accent-from)/0.1)] border-l-2 border-[rgb(var(--accent-from))]"
+                        : "hover:bg-[rgb(var(--text-primary)/0.05)] border-l-2 border-transparent"
                     }`}
                   >
                     <span className="text-base flex-shrink-0">{room.icon}</span>
                     <span
                       className={`font-bold truncate flex-1 ${
                         isActive
-                          ? "text-emerald-300"
-                          : "text-slate-300 group-hover:text-white"
+                          ? "theme-text-primary"
+                          : "theme-text-secondary group-hover:theme-text-primary"
                       }`}
                     >
                       #{room.id}
@@ -112,8 +112,8 @@ export default function RoomList({ activeRoom, onSelectRoom, onClose }: Props) {
                       <span
                         className={`text-[10px] tabular-nums px-1.5 rounded ${
                           isActive
-                            ? "bg-emerald-500/20 text-emerald-300"
-                            : "text-slate-500 group-hover:text-emerald-400"
+                            ? "bg-[rgb(var(--accent-from)/0.2)] theme-text-primary"
+                            : "bg-[rgb(var(--text-secondary)/0.1)] theme-text-secondary group-hover:theme-text-primary"
                         }`}
                       >
                         [{count}]

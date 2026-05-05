@@ -4,10 +4,11 @@ import Home from "./pages/Home";
 import Blog from "./pages/Blog";
 import ArticleView from "./pages/ArticleView";
 import ChatPage from "./pages/ChatPage";
+import CustomIrc from "./pages/CustomIrc";
 import { getCurrentUser } from "./services/chatService";
-import { registerServiceWorker, initPwaInstall } from "@/services/notifications";
+import { registerServiceWorker, initPwaInstall } from "./services/notifications";
 
-type Page = "home" | "chat" | "blog" | "article";
+type Page = "home" | "chat" | "blog" | "article" | "irc";
 
 interface RouteState {
   page: Page;
@@ -20,6 +21,7 @@ function parseHash(): RouteState {
   const [page, param] = hash.split("/");
   if (page === "chat") return { page: "chat", param };
   if (page === "blog") return { page: "blog" };
+  if (page === "irc") return { page: "irc" };
   if (page === "article" && param) return { page: "article", param };
   return { page: "home" };
 }
@@ -99,6 +101,10 @@ export default function App() {
           initialRoomId={route.param}
           onUserChange={refreshUser}
         />
+      )}
+
+      {route.page === "irc" && (
+        <CustomIrc onNavigate={navigate} />
       )}
     </div>
   );

@@ -57,7 +57,7 @@ export default function UserListCompact({
   onSelectNick,
   onExpand,
 }: Props) {
-   const [users, setUsers] = useState<OnlineUser[]>([]);
+  const [users, setUsers] = useState<OnlineUser[]>([]);
   const OP_BOTS_C = getOpBotsC(room.id);
 
   useEffect(() => {

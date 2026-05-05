@@ -343,8 +343,7 @@ function pickRandom<T>(arr: T[]): T {
 const npcPresenceTimers = new Map<string, number>();
 const npcMessageTimers = new Map<string, number>();
 
-const DEMO_NPC_USERS_KEY = (roomId: string) =>
-  `chatverse_demo_users_${roomId}`;
+
 
 const DEMO_NPC_MSGS_KEY = (roomId: string) =>
   `chatverse_demo_msgs_${roomId}`;
@@ -366,21 +365,7 @@ function pushDemoMessage(roomId: string, msg: Message) {
   } catch {}
 }
 
-function pushDemoPresence(roomId: string, user: OnlineUser) {
-  const key = DEMO_NPC_USERS_KEY(roomId);
-  let users: OnlineUser[] = [];
-  try {
-    users = JSON.parse(localStorage.getItem(key) || "[]");
-  } catch {}
-  users = users.filter((u) => u.uid !== user.uid && Date.now() - u.lastSeen < 60000);
-  users.push(user);
-  localStorage.setItem(key, JSON.stringify(users));
-  try {
-    const ch = new BroadcastChannel(`users_${roomId}`);
-    ch.postMessage(users);
-    ch.close();
-  } catch {}
-}
+/* pushDemoPresence removed (replaced by local NPC presence system) */
 
 function npcSendMessage(roomId: string, npc: NPC, text: string) {
   const avatarColor = getAvatarColor(npc.uid);

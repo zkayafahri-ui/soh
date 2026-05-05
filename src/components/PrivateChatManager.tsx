@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import PrivateChatWindow from "./PrivateChatWindow";
 import {
   subscribePmNotifications,
@@ -7,6 +7,7 @@ import {
   getOpenPms,
   type PmNotification,
 } from "../services/privateChat";
+import { showNotification } from "../services/notifications";
 
 interface Props {
   myUid: string;
@@ -61,7 +62,10 @@ export default function PrivateChatManager({ myUid, myUsername }: Props) {
     };
   }, [myUid]);
 
-  // Yeni gelen okunmamış bildirimler için otomatik tab aç (minimize)
+  // Daha önce bildirim verilen PM'leri takip et (tekrar bildirim olmasın)
+  const seenNotifs = useRef<Set<string>>(new Set());
+
+  // Yeni gelen okunmamış bildirimler için otomatik tab aç (minimize) + browser notification
   useEffect(() => {
     notifs
       .filter((n) => n.unread)
@@ -69,13 +73,23 @@ export default function PrivateChatManager({ myUid, myUsername }: Props) {
         setTabs((prev) => {
           const existing = prev.find((t) => t.uid === n.fromUid);
           if (existing) return prev;
-          // Otomatik aç ama minimize başlat
           openPm(n.fromUid, n.from);
           return [
             ...prev,
             { uid: n.fromUid, username: n.from, minimized: true },
           ];
         });
+
+        // Browser notification (bir kez)
+        const notifKey = `${n.fromUid}_${n.timestamp}`;
+        if (!seenNotifs.current.has(notifKey)) {
+          seenNotifs.current.add(notifKey);
+          showNotification(`💌 ${n.from}'dan PM`, {
+            body: n.lastMessage,
+            tag: `pm-${n.fromUid}`,
+            url: "/#/chat",
+          });
+        }
       });
   }, [notifs]);
 

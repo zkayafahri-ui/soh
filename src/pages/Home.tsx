@@ -24,63 +24,55 @@ export default function Home({ onNavigate, onOpenArticle, onSelectRoom }: Props)
   const featuredArticles = ARTICLES.slice(0, 6);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen theme-bg-secondary">
       {/* HERO */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 -z-10">
-          <div className="absolute -top-40 -left-40 w-[500px] h-[500px] bg-indigo-500/20 rounded-full blur-3xl" />
-          <div className="absolute -bottom-40 -right-40 w-[500px] h-[500px] bg-purple-500/20 rounded-full blur-3xl" />
-          <div
-            className="absolute inset-0 opacity-[0.04]"
-            style={{
-              backgroundImage:
-                "radial-gradient(circle at 1px 1px, white 1px, transparent 0)",
-              backgroundSize: "32px 32px",
-            }}
-          />
+          <div className="absolute -top-40 -left-40 w-[500px] h-[500px] bg-[rgb(var(--accent-from)/0.15)] rounded-full blur-3xl" />
+          <div className="absolute -bottom-40 -right-40 w-[500px] h-[500px] bg-[rgb(var(--accent-to)/0.15)] rounded-full blur-3xl" />
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24 lg:py-32">
           <div className="text-center max-w-3xl mx-auto">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-medium mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[rgb(var(--accent-from)/0.1)] border border-[rgb(var(--accent-from)/0.2)] theme-text-primary text-xs font-medium mb-6">
               <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
               {totalOnline > 0
                 ? `Şu an ${totalOnline} kişi çevrimiçi`
                 : "Türkiye'nin yeni nesil sohbet platformu"}
             </div>
 
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.05] mb-6">
+            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight theme-text-primary leading-[1.05] mb-6">
               Türkiye'nin{" "}
-              <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+              <span className="theme-accent-text">
                 en hızlı
               </span>
               <br />
               sohbet platformu
             </h1>
 
-            <p className="text-lg sm:text-xl text-slate-400 mb-8 max-w-2xl mx-auto leading-relaxed">
-              SohbetGo ile <strong className="text-white">ücretsiz</strong>,{" "}
-              <strong className="text-white">kayıtsız</strong> ve{" "}
-              <strong className="text-white">anlık</strong> sohbet odalarına
+            <p className="text-lg sm:text-xl theme-text-secondary mb-8 max-w-2xl mx-auto leading-relaxed">
+              SohbetGo ile <strong className="theme-text-primary">ücretsiz</strong>,{" "}
+              <strong className="theme-text-primary">kayıtsız</strong> ve{" "}
+              <strong className="theme-text-primary">anlık</strong> sohbet odalarına
               katıl. Yeni insanlarla tanış, ortak ilgi alanlarını keşfet.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <button
                 onClick={() => onNavigate("chat")}
-                className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold shadow-xl shadow-indigo-500/30 transition-all hover:scale-105"
+                className="w-full sm:w-auto px-10 py-4 rounded-2xl theme-accent-gradient text-white font-bold shadow-xl shadow-[rgb(var(--accent-from)/0.3)] transition-all hover:scale-105 active:scale-95"
               >
                 🚀 Hemen Sohbete Başla
               </button>
               <button
                 onClick={() => onNavigate("blog")}
-                className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-white font-semibold transition"
+                className="w-full sm:w-auto px-10 py-4 rounded-2xl theme-bg-primary hover:theme-bg-tertiary border border-[rgb(var(--border)/0.2)] theme-text-primary font-bold transition shadow-lg"
               >
                 📚 Blog'u Keşfet
               </button>
             </div>
 
-            <div className="mt-10 grid grid-cols-3 gap-4 max-w-md mx-auto">
+            <div className="mt-12 grid grid-cols-3 gap-4 max-w-md mx-auto">
               {[
                 { v: ROOMS.length + "+", l: "Sohbet Odası" },
                 { v: "100%", l: "Ücretsiz" },
@@ -88,12 +80,12 @@ export default function Home({ onNavigate, onOpenArticle, onSelectRoom }: Props)
               ].map((s, i) => (
                 <div
                   key={i}
-                  className="p-3 rounded-xl bg-white/5 border border-white/10"
+                  className="p-3 rounded-xl theme-bg-primary border border-[rgb(var(--border)/0.1)]"
                 >
-                  <div className="text-xl sm:text-2xl font-bold text-white">
+                  <div className="text-xl sm:text-2xl font-bold theme-text-primary">
                     {s.v}
                   </div>
-                  <div className="text-[10px] sm:text-xs text-slate-400">
+                  <div className="text-[10px] sm:text-xs theme-text-secondary uppercase tracking-wider font-semibold">
                     {s.l}
                   </div>
                 </div>
@@ -107,56 +99,56 @@ export default function Home({ onNavigate, onOpenArticle, onSelectRoom }: Props)
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-16">
         <div className="flex items-end justify-between mb-8">
           <div>
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-2">
+            <h2 className="text-3xl sm:text-4xl font-bold theme-text-primary mb-2">
               Aktif Sohbet Odaları
             </h2>
-            <p className="text-slate-400">
+            <p className="theme-text-secondary">
               İlgi alanına göre odanı seç ve hemen katıl
             </p>
           </div>
           <button
             onClick={() => onNavigate("chat")}
-            className="hidden sm:block text-sm text-indigo-400 hover:text-indigo-300 font-medium"
+            className="hidden sm:block text-sm text-indigo-500 hover:text-indigo-400 font-bold"
           >
             Tümünü görüntüle →
           </button>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {ROOMS.map((room) => {
             const count = stats[room.id] || 0;
             return (
               <button
                 key={room.id}
                 onClick={() => onSelectRoom(room.id)}
-                className="group relative overflow-hidden rounded-2xl p-5 text-left bg-slate-900/50 border border-white/5 hover:border-white/20 hover:bg-slate-900/80 transition-all"
+                className="group relative overflow-hidden rounded-3xl p-6 text-left theme-bg-primary border border-[rgb(var(--border)/0.1)] hover:border-[rgb(var(--accent-from)/0.4)] transition-all shadow-lg hover:shadow-xl hover:-translate-y-1"
               >
                 <div
-                  className={`absolute inset-0 bg-gradient-to-br ${room.color} opacity-0 group-hover:opacity-10 transition-opacity`}
+                  className={`absolute inset-0 bg-gradient-to-br ${room.color} opacity-0 group-hover:opacity-5 transition-opacity`}
                 />
-                <div className="relative flex items-start gap-4">
+                <div className="relative flex items-start gap-5">
                   <div
-                    className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${room.color} flex items-center justify-center text-2xl flex-shrink-0 shadow-lg group-hover:scale-110 transition`}
+                    className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${room.color} flex items-center justify-center text-3xl flex-shrink-0 shadow-lg group-hover:scale-110 transition-transform duration-300`}
                   >
                     {room.icon}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
-                      <h3 className="font-bold text-white text-lg">
+                      <h3 className="font-bold theme-text-primary text-xl">
                         {room.name}
                       </h3>
                       {count > 0 && (
-                        <span className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-green-500/20 text-green-400 text-[10px] font-bold">
-                          <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+                        <span className="flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-green-500/10 text-green-500 text-[10px] font-bold border border-green-500/20">
+                          <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
                           {count}
                         </span>
                       )}
                     </div>
-                    <p className="text-sm text-slate-400 mb-3">
+                    <p className="text-sm theme-text-secondary mb-4 line-clamp-2">
                       {room.description}
                     </p>
-                    <span className="inline-flex items-center gap-1 text-xs font-medium text-indigo-400 group-hover:gap-2 transition-all">
-                      Odaya Katıl <span>→</span>
+                    <span className="inline-flex items-center gap-2 text-xs font-bold theme-accent-text group-hover:gap-3 transition-all">
+                      ODAYA KATIL <span>→</span>
                     </span>
                   </div>
                 </div>

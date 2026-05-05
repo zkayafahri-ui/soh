@@ -96,27 +96,26 @@ export default function Login({ onLogin }: Props) {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center p-4 theme-bg-secondary relative overflow-hidden">
       {/* Animated background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -left-40 w-96 h-96 bg-indigo-500/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "1s" }} />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-3xl" />
+        <div className="absolute -top-40 -left-40 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "1s" }} />
       </div>
 
       <div className="relative w-full max-w-md">
-        <div className="bg-slate-900/70 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl">
+        <div className="theme-bg-primary backdrop-blur-xl border border-white/5 rounded-3xl p-8 shadow-2xl">
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 mb-4 shadow-lg shadow-indigo-500/40">
+            <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl theme-accent-gradient mb-5 shadow-lg shadow-[rgb(var(--accent-from)/0.4)]">
               <span className="text-4xl">💬</span>
             </div>
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent mb-2">
+            <h1 className="text-3xl font-bold theme-accent-text mb-2 tracking-tight">
               SohbetGo
             </h1>
-            <p className="text-slate-400 text-sm">
+            <p className="theme-text-secondary text-sm">
               Ücretsiz online sohbet odalarına hoş geldin
             </p>
-            <p className="text-slate-600 text-[11px] mt-1">www.sohbetgo.net</p>
+            <p className="theme-text-primary/30 text-[10px] mt-2 font-mono tracking-[0.2em] uppercase">EST. 2026</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">

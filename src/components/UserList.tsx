@@ -109,7 +109,7 @@ export default function UserList({
 }: Props) {
   const [users, setUsers] = useState<OnlineUser[]>([]);
   const [notifs, setNotifs] = useState<PmNotification[]>([]);
-    const [menu, setMenu] = useState<{ uid: string; username: string; x: number; y: number } | null>(null);
+  const [menu, setMenu] = useState<{ uid: string; username: string; x: number; y: number } | null>(null);
 
   // OyunBot sadece #oyun kanalında — oda bazlı dinamik
   const OP_BOTS = getOpBots(room.id);
@@ -179,9 +179,9 @@ export default function UserList({
   const totalCount = totalBots + users.length;
 
   return (
-    <div className="h-full w-full flex flex-col bg-gradient-to-b from-indigo-950/30 via-slate-950 to-purple-950/30 border-l border-indigo-500/20 font-mono text-[12.5px] overflow-hidden">
+    <div className="h-full w-full flex flex-col theme-bg-secondary border-l border-[rgb(var(--border)/0.2)] font-mono text-[12.5px] overflow-hidden">
       {/* HEADER — temaya uygun */}
-      <div className="px-3 py-3 border-b border-indigo-500/20 bg-gradient-to-r from-indigo-900/40 via-slate-900/60 to-purple-900/40 flex-shrink-0">
+      <div className="px-3 py-3 border-b border-[rgb(var(--border)/0.2)] bg-[rgb(var(--bg-primary)/0.6)] flex-shrink-0">
         <div className="flex items-center justify-between mb-1.5">
           <div className="flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-lg shadow-emerald-400/50" />
@@ -192,23 +192,23 @@ export default function UserList({
           {onClose && (
             <button
               onClick={onClose}
-              className="xl:hidden w-7 h-7 rounded hover:bg-white/5 flex items-center justify-center text-slate-400"
+              className="xl:hidden w-7 h-7 rounded hover:bg-[rgb(var(--text-primary)/0.05)] flex items-center justify-center theme-text-secondary"
               aria-label="Kapat"
             >
               ✕
             </button>
           )}
         </div>
-        <div className="text-[10px] text-slate-500 tabular-nums flex items-center gap-2">
+        <div className="text-[10px] theme-text-secondary tabular-nums flex items-center gap-2">
           <span className="text-amber-400 font-bold">[{totalCount}]</span>
           <span>kullanıcı çevrimiçi</span>
-          <span className="ml-auto text-slate-600">+ntr</span>
+          <span className="ml-auto opacity-50">+ntr</span>
         </div>
       </div>
 
-      <div className="px-3 py-1.5 text-[9px] text-slate-600 uppercase tracking-wider select-none border-b border-indigo-500/10 bg-slate-900/60 flex items-center justify-between flex-shrink-0">
+      <div className="px-3 py-1.5 text-[9px] theme-text-secondary uppercase tracking-widest select-none border-b border-[rgb(var(--border)/0.1)] bg-[rgb(var(--bg-primary)/0.4)] flex items-center justify-between flex-shrink-0">
         <span>NICK LİSTESİ</span>
-        <span className="text-slate-700 text-[8px]">
+        <span className="opacity-50 text-[8px]">
           ~{SYSTEM_BOTS.length} &{ADMIN_BOTS.length} @{OP_BOTS.length + ops.length} %{halfOps.length} +{voiced.length} ·{normals.length}
         </span>
       </div>

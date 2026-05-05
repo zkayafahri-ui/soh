@@ -37,7 +37,6 @@ import {
   processNickServCommand,
   canUseNick,
   isNickRegistered,
-  isIdentified,
 } from "./nickServ";
 
 // ============= DEMO MOD (Firebase yapılandırılmamışsa) =============
@@ -265,8 +264,7 @@ export function sendMessage(
     );
   }
 
-  // 🎮 OyunBot komut işleme
-    // 🎮 OyunBot komut işleme — SADECE #oyun kanalında
+  // 🎮 OyunBot komut işleme — SADECE #oyun kanalında
   if (roomId === "oyun") {
     const gameResponses = processGameCommand(roomId, uid, username, cleanText);
     if (gameResponses) {
@@ -275,14 +273,14 @@ export function sendMessage(
       });
     }
   } else if (cleanText.startsWith("!")) {
-    // Diğer kanallarda ! komutuna nazik uyarı
+    // Diğer kanallarda ! komutuna nazik uyarı (sadece bilinen oyun komutları)
     const knownCmds = ["!yardim", "!komutlar", "!help", "!sayi", "!sayı", "!kelime", "!soru", "!tas", "!taş", "!kagit", "!kağıt", "!makas", "!zar", "!yazi", "!tura", "!soyle", "!dur", "!stop", "!seviye", "!seviyeler", "!level", "!levels"];
     const lower = cleanText.toLowerCase().split(" ")[0];
     if (knownCmds.includes(lower)) {
       sendBotMessage(
         roomId,
         SYSTEM_BOT,
-        `🎮 Oyun komutları sadece **#oyun** kanalında çalışır! 👉 #oyun kanalına geç.`,
+        `🎮 Oyun komutları sadece **#oyun** kanalında çalışır! 👉 [#oyun](#/chat/oyun) kanalına geç.`,
         300
       );
     }
@@ -345,8 +343,7 @@ export function sendWelcomeMessage(
     );
   }
 
-  // 🎮 #oyun kanalına özel: OyunBot komut tanıtımı
-  }
+}
 
 // 🎮 #oyun kanalına özel hoşgeldin — her giriş'te çalışır
 export function sendOyunWelcome(username: string) {

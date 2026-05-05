@@ -1,18 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import {
-  sendMessage,
-  subscribeMessages,
-  joinRoom,
-  subscribeOnlineUsers,
-  sendWelcomeMessage,
-  sendOyunWelcome,
-} from "../services/chatService";
-  isBotMessage,
-  NOMERCY_BOT,
-  GAME_BOT,
-  SYSTEM_BOT,
-  ADMIN_BOT,
-} from "../services/bots";
+import { sendMessage, subscribeMessages, joinRoom, subscribeOnlineUsers, sendWelcomeMessage, sendOyunWelcome } from "../services/chatService";
+import { isBotMessage, NOMERCY_BOT, GAME_BOT, SYSTEM_BOT, ADMIN_BOT } from "../services/bots";
 import { getUserLevel } from "../services/levels";
 import { startNpcsForRoom, stopNpcsForRoom, initializeNpcLevels } from "../services/npcUsers";
 import RadioPlayer from "./RadioPlayer";
@@ -20,59 +8,6 @@ import type { Message, OnlineUser, Room } from "../types";
 
 // NPC seviye verilerini bir kez initialize et
 initializeNpcLevels();
-
-// Kullanıcı seviyesine göre IRC prefix
-function userPrefix(uid: string): { sym: string; color: string } {
-  const lvl = getUserLevel(uid).level;
-  if (lvl >= 7) return { sym: "@", color: "text-emerald-400" };
-  if (lvl >= 5) return { sym: "%", color: "text-purple-400" };
-  if (lvl >= 3) return { sym: "+", color: "text-cyan-400" };
-  return { sym: "·", color: "text-slate-500" };
-}
-
-// Markdown-lite renderer (bold, code, satır sonu)
-function renderRich(text: string) {
-  const lines = text.split("\n");
-  return lines.map((line, li) => {
-    const parts: React.ReactNode[] = [];
-    const regex = /(\*\*[^*]+\*\*|`[^`]+`|@\w+)/g;
-    let last = 0;
-    let match;
-    let key = 0;
-    while ((match = regex.exec(line)) !== null) {
-      if (match.index > last) parts.push(<span key={`t${li}-${key++}`}>{line.slice(last, match.index)}</span>);
-      const m = match[0];
-      if (m.startsWith("**") && m.endsWith("**")) {
-        parts.push(<strong key={`b${li}-${key++}`} className="font-bold">{m.slice(2, -2)}</strong>);
-      } else if (m.startsWith("`") && m.endsWith("`")) {
-        parts.push(
-          <code key={`c${li}-${key++}`} className="px-1.5 py-0.5 rounded bg-black/30 text-amber-300 text-[12px] font-mono">
-            {m.slice(1, -1)}
-          </code>
-        );
-      } else if (m.startsWith("@")) {
-        parts.push(<span key={`m${li}-${key++}`} className="text-indigo-300 font-semibold">{m}</span>);
-      }
-      last = match.index + m.length;
-    }
-    if (last < line.length) parts.push(<span key={`e${li}-${key++}`}>{line.slice(last)}</span>);
-    return (
-      <span key={li}>
-        {parts.length > 0 ? parts : line}
-        {li < lines.length - 1 && <br />}
-      </span>
-    );
-  });
-}
-
-interface Props {
-  room: Room;
-  uid: string;
-  username: string;
-  onOpenSidebar: () => void;
-  onOpenUsers: () => void;
-  onLogout: () => void;
-}
 
 function formatTime(ts: number): string {
   const d = new Date(ts);
@@ -116,6 +51,59 @@ function ircTime(ts: number): string {
   );
 }
 
+// Markdown-lite renderer (bold, code, satır sonu)
+function renderRich(text: string) {
+  const lines = text.split("\n");
+  return lines.map((line, li) => {
+    const parts: React.ReactNode[] = [];
+    const regex = /(\*\*[^*]+\*\*|`[^`]+`|@\w+)/g;
+    let last = 0;
+    let match;
+    let key = 0;
+    while ((match = regex.exec(line)) !== null) {
+      if (match.index > last) parts.push(<span key={`t${li}-${key++}`}>{line.slice(last, match.index)}</span>);
+      const m = match[0];
+      if (m.startsWith("**") && m.endsWith("**")) {
+        parts.push(<strong key={`b${li}-${key++}`} className="font-bold">{m.slice(2, -2)}</strong>);
+      } else if (m.startsWith("`") && m.endsWith("`")) {
+        parts.push(
+          <code key={`c${li}-${key++}`} className="px-1.5 py-0.5 rounded bg-black/30 text-amber-300 text-[12px] font-mono">
+            {m.slice(1, -1)}
+          </code>
+        );
+      } else if (m.startsWith("@")) {
+        parts.push(<span key={`m${li}-${key++}`} className="text-indigo-300 font-semibold">{m}</span>);
+      }
+      last = match.index + m.length;
+    }
+    if (last < line.length) parts.push(<span key={`e${li}-${key++}`}>{line.slice(last)}</span>);
+    return (
+      <span key={li}>
+        {parts.length > 0 ? parts : line}
+        {li < lines.length - 1 && <br />}
+      </span>
+    );
+  });
+}
+
+// Kullanıcı seviyesine göre IRC prefix
+function userPrefix(uid: string): { sym: string; color: string } {
+  const lvl = getUserLevel(uid).level;
+  if (lvl >= 7) return { sym: "@", color: "text-emerald-400" };
+  if (lvl >= 5) return { sym: "%", color: "text-purple-400" };
+  if (lvl >= 3) return { sym: "+", color: "text-cyan-400" };
+  return { sym: "·", color: "text-slate-500" };
+}
+
+interface Props {
+  room: Room;
+  uid: string;
+  username: string;
+  onOpenSidebar: () => void;
+  onOpenUsers: () => void;
+  onLogout: () => void;
+}
+
 export default function ChatRoom({
   room,
   uid,
@@ -140,21 +128,24 @@ export default function ChatRoom({
     // NPC kullanıcıları başlat — kanalda hayat olsun
     startNpcsForRoom(room.id);
 
-    // Hoşgeldin mesajı (sadece ilk girişte)
-       // Hoşgeldin mesajı (sadece ilk girişte — site bazlı)
+    // Hoşgeldin mesajı (sadece ilk girişte — site bazlı)
     const welcomeKey = `welcomed_${room.id}_${uid}`;
     if (!sessionStorage.getItem(welcomeKey)) {
       sessionStorage.setItem(welcomeKey, "1");
       sendWelcomeMessage(room.id, username, uid);
     }
 
-    // 🎮 #oyun kanalına HER GEÇİŞTE OyunBot bilgi mesajı atar (5 dk arayla)
+    // 🎮 #oyun kanalına HER GEÇİŞTE OyunBot bilgi mesajı atar
     if (room.id === "oyun") {
+      const oyunKey = `oyun_welcomed_${uid}_${Date.now()}`;
+      // Son 5 dakika içinde gönderildi mi kontrol et
       const lastOyun = parseInt(sessionStorage.getItem(`oyun_last_${uid}`) || "0", 10);
       if (Date.now() - lastOyun > 5 * 60 * 1000) {
         sessionStorage.setItem(`oyun_last_${uid}`, Date.now().toString());
         sendOyunWelcome(username);
       }
+      // Anti-tekrar (aynı oturum içinde aynı geçişte 2x atmasın)
+      sessionStorage.setItem(oyunKey, "1");
     }
 
     // Sol bardan nick mention event'i
@@ -199,12 +190,12 @@ export default function ChatRoom({
   };
 
   return (
-    <div className="h-full flex flex-col bg-gradient-to-b from-slate-950 to-slate-900">
+    <div className="h-full flex flex-col theme-bg-secondary">
       {/* Header — IRC topic bar */}
-      <div className="flex items-center gap-2 px-3 py-2 border-b border-white/5 bg-slate-900/80 backdrop-blur-xl font-mono">
+      <div className="flex items-center gap-2 px-3 py-2 border-b border-[rgb(var(--border)/0.2)] bg-[rgb(var(--bg-primary)/0.8)] backdrop-blur-xl font-mono">
         <button
           onClick={onOpenSidebar}
-          className="lg:hidden w-8 h-8 rounded hover:bg-white/5 flex items-center justify-center text-slate-300"
+          className="lg:hidden w-8 h-8 rounded hover:bg-[rgb(var(--text-primary)/0.05)] flex items-center justify-center theme-text-secondary"
           aria-label="Menü"
         >
           ☰
@@ -218,10 +209,10 @@ export default function ChatRoom({
 
         <div className="flex-1 min-w-0">
           <h1 className="text-emerald-300 font-bold text-[14px] truncate">
-            #{room.id} <span className="text-slate-500 font-normal text-[11px]">— {room.name}</span>
+            #{room.id} <span className="theme-text-secondary font-normal text-[11px]">— {room.name}</span>
           </h1>
-          <div className="flex items-center gap-2 text-[10px] text-slate-500">
-            <span className="text-slate-600">Topic:</span>
+          <div className="flex items-center gap-2 text-[10px] theme-text-secondary">
+            <span className="opacity-60">Topic:</span>
             <span className="truncate">{room.description}</span>
             <span className="text-emerald-400 ml-1 flex-shrink-0">[{onlineCount + 2} users]</span>
           </div>
@@ -229,7 +220,7 @@ export default function ChatRoom({
 
         <button
           onClick={onOpenUsers}
-          className="md:hidden w-8 h-8 rounded hover:bg-white/5 flex items-center justify-center text-slate-300 relative"
+          className="md:hidden w-8 h-8 rounded hover:bg-[rgb(var(--text-primary)/0.05)] flex items-center justify-center theme-text-secondary relative"
           aria-label="Nickler"
           title="Nick listesi"
         >
@@ -243,7 +234,7 @@ export default function ChatRoom({
 
         <button
           onClick={onLogout}
-          className="w-9 h-9 rounded-lg hover:bg-red-500/10 hover:text-red-400 flex items-center justify-center text-slate-300 transition"
+          className="w-8 h-8 rounded hover:bg-red-500/10 hover:text-red-400 flex items-center justify-center theme-text-secondary transition"
           aria-label="Çıkış"
           title="Çıkış"
         >
@@ -257,7 +248,7 @@ export default function ChatRoom({
       {/* Messages — IRC stili */}
       <div
         ref={scrollRef}
-        className="flex-1 overflow-y-auto px-2 sm:px-4 py-3 font-mono text-[13px] leading-[1.55] bg-slate-950"
+        className="flex-1 overflow-y-auto px-2 sm:px-4 py-3 font-mono text-[13px] leading-[1.55] theme-bg-secondary"
       >
         {messages.length === 0 && (
           <div className="h-full flex flex-col items-center justify-center text-center py-16 font-sans">
@@ -266,11 +257,11 @@ export default function ChatRoom({
             >
               {room.icon}
             </div>
-            <h2 className="text-2xl font-bold text-white mb-2">
+            <h2 className="text-2xl font-bold theme-text-primary mb-2">
               {room.name}
             </h2>
-            <p className="text-slate-400 max-w-sm">{room.description}</p>
-            <p className="text-slate-600 text-sm mt-4">
+            <p className="theme-text-secondary max-w-sm">{room.description}</p>
+            <p className="text-slate-600 text-sm mt-4 italic">
               * Sunucuya bağlandınız. İlk mesajı sen gönder! ✨
             </p>
           </div>
@@ -345,7 +336,7 @@ export default function ChatRoom({
             ? "text-red-200"
             : isGameBot
             ? "text-emerald-100"
-            : "text-slate-200";
+            : "theme-text-primary";
 
           return (
             <div
@@ -441,11 +432,11 @@ export default function ChatRoom({
       {/* Input — IRC stili */}
       <form
         onSubmit={handleSend}
-        className="border-t border-white/5 bg-slate-900/80 backdrop-blur-xl"
+        className="border-t border-[rgb(var(--border)/0.2)] bg-[rgb(var(--bg-primary)/0.8)] backdrop-blur-xl"
       >
         <div className="flex items-stretch font-mono text-[13px]">
           {/* Nick prefix */}
-          <div className="flex items-center px-3 bg-slate-900 border-r border-white/5 select-none flex-shrink-0">
+          <div className="flex items-center px-3 theme-bg-secondary border-r border-[rgb(var(--border)/0.2)] select-none flex-shrink-0">
             <span className="text-slate-500">[</span>
             <span className="text-emerald-400 font-bold mx-0.5">{username}</span>
             <span className="text-slate-500">]</span>
@@ -463,7 +454,7 @@ export default function ChatRoom({
               placeholder={`#${room.id} kanalına mesaj yaz... (!yardim için botu çağır)`}
               rows={1}
               maxLength={500}
-              className="w-full px-3 py-3 pr-14 bg-transparent text-white placeholder-slate-600 outline-none resize-none max-h-32 font-mono"
+              className="w-full px-3 py-3 pr-14 bg-transparent theme-text-primary placeholder-slate-600 outline-none resize-none max-h-32 font-mono"
               style={{ minHeight: "48px" }}
             />
             <span className="absolute right-3 bottom-2.5 text-[10px] text-slate-700 tabular-nums select-none">
@@ -474,9 +465,9 @@ export default function ChatRoom({
           <button
             type="submit"
             disabled={!text.trim()}
-            className={`px-4 flex items-center justify-center transition flex-shrink-0 border-l border-white/5 ${
+            className={`px-4 flex items-center justify-center transition flex-shrink-0 border-l border-[rgb(var(--border)/0.2)] ${
               text.trim()
-                ? "bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400"
+                ? "bg-[rgb(var(--accent-from)/0.1)] hover:bg-[rgb(var(--accent-from)/0.2)] text-emerald-400"
                 : "text-slate-700 cursor-not-allowed"
             }`}
             aria-label="Gönder"
@@ -485,7 +476,7 @@ export default function ChatRoom({
           </button>
         </div>
         {isTyping && (
-          <div className="text-[10px] text-slate-600 px-3 py-1 font-mono border-t border-white/5 select-none">
+          <div className="text-[10px] text-slate-600 px-3 py-1 font-mono border-t border-[rgb(var(--border)/0.2)] select-none">
             * ENTER: gönder · SHIFT+ENTER: yeni satır · nick'e tıkla: mention
           </div>
         )}

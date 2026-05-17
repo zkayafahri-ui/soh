@@ -2,40 +2,51 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.sohbetgo.net/</loc>
+    <lastmod>2026-05-03</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.sohbetgo.net/#/chat</loc>
+    <lastmod>2026-05-03</lastmod>
     <changefreq>always</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://www.sohbetgo.net/#/blog</loc>
+    <lastmod>2026-05-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
-  <url><loc>https://www.sohbetgo.net/#/article/ucretsiz-online-sohbet-odalari</loc><priority>0.8</priority></url>
-  <url><loc>https://www.sohbetgo.net/#/article/mobil-sohbet-uygulamalari-vs-web-sohbet</loc><priority>0.8</priority></url>
-  <url><loc>https://www.sohbetgo.net/#/article/sohbet-odasinda-nick-secimi</loc><priority>0.8</priority></url>
-  <url><loc>https://www.sohbetgo.net/#/article/guvenli-sohbet-icin-altin-kurallar</loc><priority>0.8</priority></url>
-  <url><loc>https://www.sohbetgo.net/#/article/yeni-arkadaslar-edinmek-icin-sohbet</loc><priority>0.8</priority></url>
-  <url><loc>https://www.sohbetgo.net/#/article/kayitsiz-sohbet-avantajlari</loc><priority>0.8</priority></url>
-  <url><loc>https://www.sohbetgo.net/#/article/sohbet-odasi-kategorileri-rehberi</loc><priority>0.8</priority></url>
-  <url><loc>https://www.sohbetgo.net/#/article/online-sohbet-ile-yalnizliga-veda</loc><priority>0.8</priority></url>
-  <url><loc>https://www.sohbetgo.net/#/article/responsive-tasarim-sohbet-platformlari</loc><priority>0.8</priority></url>
-  <url><loc>https://www.sohbetgo.net/#/article/turkce-sohbet-odalari-tarihcesi</loc><priority>0.8</priority></url>
-  <url><loc>https://www.sohbetgo.net/#/article/sohbet-etiketi-ve-davranis-kurallari</loc><priority>0.8</priority></url>
-  <url><loc>https://www.sohbetgo.net/#/article/uzaktan-calisanlar-icin-sohbet</loc><priority>0.8</priority></url>
-  <url><loc>https://www.sohbetgo.net/#/article/anlik-mesajlasma-vs-sohbet-odasi</loc><priority>0.8</priority></url>
-  <url><loc>https://www.sohbetgo.net/#/article/firebase-realtime-database-sohbet</loc><priority>0.8</priority></url>
-  <url><loc>https://www.sohbetgo.net/#/article/sohbet-bagimliligi-ve-saglikli-kullanim</loc><priority>0.8</priority></url>
-  <url><loc>https://www.sohbetgo.net/#/article/sohbette-yazma-sanati-iletisim-becerileri</loc><priority>0.8</priority></url>
-  <url><loc>https://www.sohbetgo.net/#/article/sohbet-odalarinda-moderasyon-onemi</loc><priority>0.8</priority></url>
-  <url><loc>https://www.sohbetgo.net/#/article/kuresel-sohbet-kultur-farkliliklari</loc><priority>0.8</priority></url>
-  <url><loc>https://www.sohbetgo.net/#/article/psikolojik-destek-icin-online-sohbet</loc><priority>0.8</priority></url>
-  <url><loc>https://www.sohbetgo.net/#/article/ogrenciler-icin-sohbet-odalari</loc><priority>0.8</priority></url>
-  <url><loc>https://www.sohbetgo.net/#/article/yapay-zeka-ve-sohbet-platformlari-gelecek</loc><priority>0.8</priority></url>
-  <url><loc>https://www.sohbetgo.net/#/article/geceyi-sohbet-ile-tamamlamak</loc><priority>0.8</priority></url>
-  <url><loc>https://www.sohbetgo.net/#/article/sohbet-platformu-secerken-nelere-dikkat</loc><priority>0.8</priority></url>
+  <url>
+    <loc>https://www.sohbetgo.net/#/irc</loc>
+    <lastmod>2026-05-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- Blog Articles SEO Optimized -->
+  <url><loc>https://www.sohbetgo.net/#/article/ucretsiz-online-sohbet-odalari</loc><priority>0.7</priority></url>
+  <url><loc>https://www.sohbetgo.net/#/article/mobil-sohbet-uygulamalari-vs-web-sohbet</loc><priority>0.7</priority></url>
+  <url><loc>https://www.sohbetgo.net/#/article/sohbet-odasinda-nick-secimi</loc><priority>0.7</priority></url>
+  <url><loc>https://www.sohbetgo.net/#/article/guvenli-sohbet-icin-altin-kurallar</loc><priority>0.7</priority></url>
+  <url><loc>https://www.sohbetgo.net/#/article/yeni-arkadaslar-edinmek-icin-sohbet</loc><priority>0.7</priority></url>
+  <url><loc>https://www.sohbetgo.net/#/article/kayitsiz-sohbet-avantajlari</loc><priority>0.7</priority></url>
+  <url><loc>https://www.sohbetgo.net/#/article/sohbet-odasi-kategorileri-rehberi</loc><priority>0.7</priority></url>
+  <url><loc>https://www.sohbetgo.net/#/article/online-sohbet-ile-yalnizliga-veda</loc><priority>0.7</priority></url>
+  <url><loc>https://www.sohbetgo.net/#/article/responsive-tasarim-sohbet-platformlari</loc><priority>0.7</priority></url>
+  <url><loc>https://www.sohbetgo.net/#/article/turkce-sohbet-odalari-tarihcesi</loc><priority>0.7</priority></url>
+  <url><loc>https://www.sohbetgo.net/#/article/sohbet-etiketi-ve-davranis-kurallari</loc><priority>0.7</priority></url>
+  <url><loc>https://www.sohbetgo.net/#/article/uzaktan-calisanlar-icin-sohbet</loc><priority>0.7</priority></url>
+  <url><loc>https://www.sohbetgo.net/#/article/anlik-mesajlasma-vs-sohbet-odasi</loc><priority>0.7</priority></url>
+  <url><loc>https://www.sohbetgo.net/#/article/firebase-realtime-database-sohbet</loc><priority>0.7</priority></url>
+  <url><loc>https://www.sohbetgo.net/#/article/sohbet-bagimliligi-ve-saglikli-kullanim</loc><priority>0.7</priority></url>
+  <url><loc>https://www.sohbetgo.net/#/article/sohbette-yazma-sanati-iletisim-becerileri</loc><priority>0.7</priority></url>
+  <url><loc>https://www.sohbetgo.net/#/article/sohbet-odalarinda-moderasyon-onemi</loc><priority>0.7</priority></url>
+  <url><loc>https://www.sohbetgo.net/#/article/kuresel-sohbet-kultur-farkliliklari</loc><priority>0.7</priority></url>
+  <url><loc>https://www.sohbetgo.net/#/article/psikolojik-destek-icin-online-sohbet</loc><priority>0.7</priority></url>
+  <url><loc>https://www.sohbetgo.net/#/article/ogrenciler-icin-sohbet-odalari</loc><priority>0.7</priority></url>
+  <url><loc>https://www.sohbetgo.net/#/article/yapay-zeka-ve-sohbet-platformlari-gelecek</loc><priority>0.7</priority></url>
+  <url><loc>https://www.sohbetgo.net/#/article/geceyi-sohbet-ile-tamamlamak</loc><priority>0.7</priority></url>
+  <url><loc>https://www.sohbetgo.net/#/article/sohbet-platformu-secerken-nelere-dikkat</loc><priority>0.7</priority></url>
 </urlset>

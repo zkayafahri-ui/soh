@@ -298,21 +298,58 @@ export default function Home({ onNavigate, onOpenArticle, onSelectRoom }: Props)
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer className="border-t border-white/5 mt-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 text-center">
-          <div className="flex items-center justify-center gap-2 mb-3">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-base">
-              💬
+      {/* SEO-POWERED FOOTER */}
+      <footer className="border-t border-white/5 mt-16 bg-slate-950/50 pt-16 pb-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-12 mb-12">
+            <div className="col-span-2">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-10 h-10 rounded-xl theme-accent-gradient flex items-center justify-center text-xl shadow-lg">
+                  💬
+                </div>
+                <span className="font-bold text-2xl text-white">SohbetGo</span>
+              </div>
+              <p className="text-slate-400 text-sm max-w-md leading-relaxed mb-6">
+                SohbetGo, Türkiye'nin her yerinden ve dünyadan binlerce kullanıcıyı bir araya getiren modern, güvenli ve ücretsiz bir sohbet platformudur. Üyeliksiz chat ve mobil uyumlu odalarımızla anlık iletişimin keyfini çıkarın.
+              </p>
             </div>
-            <span className="font-bold text-white">SohbetGo</span>
+            
+            <div>
+              <h4 className="text-white font-bold mb-4 uppercase tracking-widest text-xs">Hızlı Erişim</h4>
+              <ul className="space-y-3 text-sm text-slate-500">
+                <li><button onClick={() => onNavigate("chat")} className="hover:text-indigo-400 transition">Sohbet Odaları</button></li>
+                <li><button onClick={() => onNavigate("irc")} className="hover:text-indigo-400 transition">IRC Bağlantısı</button></li>
+                <li><button onClick={() => onNavigate("blog")} className="hover:text-indigo-400 transition">Sohbet Blog</button></li>
+                <li><button onClick={() => window.scrollTo({top:0, behavior:'smooth'})} className="hover:text-indigo-400 transition">Anasayfa</button></li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="text-white font-bold mb-4 uppercase tracking-widest text-xs">Popüler Odalar</h4>
+              <ul className="space-y-3 text-sm text-slate-500">
+                <li><button onClick={() => onSelectRoom("genel")} className="hover:text-emerald-400 transition">#Genel</button></li>
+                <li><button onClick={() => onSelectRoom("teknoloji")} className="hover:text-emerald-400 transition">#Teknoloji</button></li>
+                <li><button onClick={() => onSelectRoom("muzik")} className="hover:text-emerald-400 transition">#Müzik</button></li>
+                <li><button onClick={() => onSelectRoom("oyun")} className="hover:text-emerald-400 transition">#Oyun</button></li>
+              </ul>
+            </div>
           </div>
-          <p className="text-sm text-slate-500 mb-2">
-            © {new Date().getFullYear()} SohbetGo. Tüm hakları saklıdır.
-          </p>
-          <p className="text-xs text-slate-600">
-            www.sohbetgo.net • Ücretsiz online sohbet odaları
-          </p>
+
+          <div className="border-t border-white/5 pt-8">
+            <div className="flex flex-wrap gap-2 justify-center mb-8">
+              {["sohbet", "chat", "sohbet odaları", "mobil chat", "canlı sohbet", "bedava sohbet", "sohbet siteleri", "türkçe chat", "üyeliksiz sohbet", "irc sohbet"].map(tag => (
+                <span key={tag} className="px-3 py-1 rounded-full bg-white/5 border border-white/5 text-[10px] text-slate-600 uppercase font-mono">#{tag.replace(/\s+/g, '')}</span>
+              ))}
+            </div>
+            <div className="text-center">
+              <p className="text-xs text-slate-600">
+                © {new Date().getFullYear()} SohbetGo.Net — Türkiye'nin Lider Chat Platformu
+              </p>
+              <p className="text-[10px] text-slate-700 mt-1 uppercase tracking-tighter">
+                Bedava Sohbet • Mobil Sohbet • Kaliteli Chat • Güvenilir Sohbet Odaları
+              </p>
+            </div>
+          </div>
         </div>
       </footer>
     </div>

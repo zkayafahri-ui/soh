@@ -1,0 +1,56 @@
+{
+  "name": "SohbetGo — Online Sohbet Odaları",
+  "short_name": "SohbetGo",
+  "description": "Türkiye'nin yeni nesil sohbet platformu. Ücretsiz, kayıtsız, anlık sohbet odaları.",
+  "start_url": "/#/chat",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#020617",
+  "theme_color": "#6366f1",
+  "scope": "/",
+  "lang": "tr",
+  "dir": "ltr",
+  "categories": ["social", "communication", "entertainment"],
+  "icons": [
+    {
+      "src": "/images/sohbetgo-icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/sohbetgo-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Genel Sohbet",
+      "short_name": "Genel",
+      "url": "/#/chat/genel",
+      "icons": [{ "src": "/images/sohbetgo-icon.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Müzik Kanalı",
+      "short_name": "Müzik",
+      "url": "/#/chat/muzik",
+      "icons": [{ "src": "/images/sohbetgo-icon.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Oyun Kanalı",
+      "short_name": "Oyun",
+      "url": "/#/chat/oyun",
+      "icons": [{ "src": "/images/sohbetgo-icon.png", "sizes": "192x192" }]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/images/sohbetgo-banner.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ]
+}

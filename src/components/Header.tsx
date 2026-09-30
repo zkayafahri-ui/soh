@@ -16,58 +16,80 @@ const NAV = [
 
 export default function Header({ current, onNavigate, username }: Props) {
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const navigate = (page: string) => {
+    onNavigate(page);
+    setMobileMenuOpen(false);
+  };
+
   return (
-    <header className="sticky top-0 z-30 bg-[rgb(var(--bg-secondary)/0.8)] backdrop-blur-xl border-b border-[rgb(var(--border)/0.2)]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+    <header className="site-header sticky top-0 z-30">
+      <div className="site-header-inner">
         <button
-          onClick={() => onNavigate("home")}
-          className="flex items-center gap-2.5 group"
+          onClick={() => navigate("home")}
+          className="site-brand"
+          aria-label="SohbetGo ana sayfa"
         >
-          <div className="w-10 h-10 rounded-xl theme-accent-gradient flex items-center justify-center text-xl shadow-lg shadow-[rgb(var(--accent-from)/0.3)] group-hover:scale-110 transition">
-            💬
-          </div>
-          <div className="text-left hidden sm:block">
-            <div className="font-bold text-base leading-tight theme-accent-text">
-              SohbetGo
-            </div>
-            <div className="text-[10px] theme-text-secondary leading-tight font-mono">
-              sohbetgo.net
-            </div>
-          </div>
+          <img src="/images/sohbetgo-icon.png" alt="" />
+          <span>
+            <strong>SohbetGo</strong>
+            <small>sohbetgo.net</small>
+          </span>
         </button>
 
-        <nav className="flex items-center gap-1">
+        <nav
+          className={`site-navigation${mobileMenuOpen ? " is-open" : ""}`}
+          id="site-navigation"
+          aria-label="Ana menü"
+        >
           {NAV.map((n) => (
             <button
               key={n.id}
-              onClick={() => onNavigate(n.id)}
-              className={`px-3 sm:px-4 py-2 rounded-xl text-sm font-medium transition flex items-center gap-1.5 ${
+              onClick={() => navigate(n.id)}
+              className={`site-navigation-link ${
                 current === n.id
-                  ? "bg-[rgb(var(--accent-from)/0.1)] theme-text-primary border border-[rgb(var(--accent-from)/0.2)]"
-                  : "theme-text-secondary hover:theme-text-primary hover:bg-[rgb(var(--text-primary)/0.05)]"
+                  ? "is-current"
+                  : ""
               }`}
+              aria-current={current === n.id ? "page" : undefined}
             >
-              <span className="text-base">{n.icon}</span>
-              <span className="hidden sm:inline">{n.label}</span>
+              <span className="site-navigation-icon" aria-hidden="true">
+                {n.icon}
+              </span>
+              <span>{n.label}</span>
             </button>
           ))}
           {username && (
-            <div className="hidden md:flex items-center gap-2 ml-3 px-3 py-1.5 rounded-xl theme-bg-tertiary border border-[rgb(var(--border)/0.1)]">
-              <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-              <span className="text-xs theme-text-primary">{username}</span>
+            <div className="site-user-pill">
+              <span aria-hidden="true" />
+              {username}
             </div>
           )}
 
-          {/* Settings butonu */}
           <button
-            onClick={() => setSettingsOpen(true)}
-            className="ml-1 w-9 h-9 rounded-xl theme-text-secondary hover:theme-text-primary hover:bg-[rgb(var(--text-primary)/0.05)] flex items-center justify-center transition group"
+            onClick={() => {
+              setMobileMenuOpen(false);
+              setSettingsOpen(true);
+            }}
+            className="site-settings-button"
             title="Ayarlar"
             aria-label="Ayarlar"
           >
-            <span className="text-lg group-hover:rotate-90 transition-transform duration-300">⚙️</span>
+            <span aria-hidden="true">⚙</span>
           </button>
         </nav>
+
+        <button
+          type="button"
+          className="site-menu-button"
+          aria-label={mobileMenuOpen ? "Menüyü kapat" : "Menüyü aç"}
+          aria-expanded={mobileMenuOpen}
+          aria-controls="site-navigation"
+          onClick={() => setMobileMenuOpen((open) => !open)}
+        >
+          <span aria-hidden="true">{mobileMenuOpen ? "×" : "☰"}</span>
+        </button>
       </div>
 
       <SettingsModal open={settingsOpen} onClose={() => setSettingsOpen(false)} />
